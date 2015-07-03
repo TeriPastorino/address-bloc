@@ -13,7 +13,8 @@ class MenuController
     puts "2 - Create an entry"
     puts "3 - Search for an entry"
     puts "4 - Import entries from CSV"
-    puts "5 - Exit"
+    puts "5 - View entry number n"
+    puts "6 - Exit"
     print "Enter your selection: "
 
     selection = gets.to_i
@@ -36,16 +37,31 @@ class MenuController
       system "clear"
       read_csv
       main_menu
-    when 5 
+    when 5
+      system "clear"
+      puts "Enter the number of entry to view"
+      get_n_entry
+      main_menu
+    when 6 
       puts "Good-bye!"
       exit(0)
 
-  else
-    system "clear"
-    puts "Sorry that is not a valid input"
-    main_menu
+    else
+      system "clear"
+      puts "Sorry that is not a valid input"
+      main_menu
+    end
   end
-end
+    def get_n_entry
+      number = gets.chomp.to_i
+      if number.is_a? Integer
+        entry = @address_book.get_entry(number)
+        puts entry.to_s << "\n\n"
+      else
+        puts "Please enter a valid number."
+        get_entry
+      end
+    end
 
   def view_all_entries
     @address_book.entries.each do |entry|
@@ -87,6 +103,7 @@ end
     case selection
     when "n"
     when "d"
+    when "e"
     when "m"
       system "clear"
       main_menu
