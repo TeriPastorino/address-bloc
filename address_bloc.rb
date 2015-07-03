@@ -1,3 +1,13 @@
+require_relative "controllers/menu_controller"
+
+menu = MenuController.new
+system "clear"
+puts "Welcome to AddressBloc!"
+menu.main_menu
+
+
+
+
 puts "Welcome to AddressBloc!"
 
 
@@ -25,10 +35,4 @@ def hello_world
         puts "Hello, #{arg}!"
     end
 end
-
-hello_world
-
-at prompt
-$ ruby hello_world.rb Kermit Piggy Statler Waldorf Janice Fozzie Camilla
-
 
