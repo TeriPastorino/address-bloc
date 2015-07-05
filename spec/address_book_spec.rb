@@ -1,6 +1,5 @@
 require_relative '../models/address_book.rb'
-
-RSpec.describe AddressBook do  
+RSpec.describe AddressBook do 
   let(:book) { AddressBook.new }
 
   def check_entry(entry, expected_name, expected_number, expected_email)
@@ -84,39 +83,89 @@ RSpec.describe AddressBook do
       entry_five = book.entries[4]
       check_entry(entry_five, "Sussie", "555-555-2036", "sussie@blocmail.com")
     end
-
   end
 
   context ".import_from_csv with entries_2.csv" do
-    it "imports the correct number of entries" do
-      book.import_from_csv("entries_2.csv")
-      book_size = book.entries.size
+      it "imports the correct number of entries" do
+        book.import_from_csv("entries_2.csv")
+        book_size = book.entries.size
+        
+        # Check the size of the entries in AddressBook
+        expect(book_size).to eql 3
+
+      end
+
+
+      it "imports the 2nd entry" do
+        book.import_from_csv("entries_2.csv")
+        # Check the second entry
+        entry_two = book.entries[1]
+        check_entry(entry_two, "Declan", "555-435-5415", "declan@blocmail.com")
+      end
+
+      it "imports the 1st entry" do
+        book.import_from_csv("entries_2.csv")
+        # Check the first entry
+        entry_one = book.entries[0]
+        check_entry(entry_one, "Lucca", "555-435-4854", "lucca@blocmail.com")
+      end
       
-      # Check the size of the entries in AddressBook
-      expect(book_size).to eql 3
-
+      it "imports the 3rd entry" do
+        book.import_from_csv("entries_2.csv")
+        # Check the third entry
+        entry_three = book.entries[2]
+        check_entry(entry_three, "Sophia", "435-555-3660", "sophia@blocmail.com")
+      end
     end
 
-    it "imports the 1st entry" do
-      book.import_from_csv("entries_2.csv")
-      # Check the first entry
-      entry_one = book.entries[0]
-      check_entry(entry_one, "Lucca", "555-435-4854", "lucca@blocmail.com")
+
+  # Test the binary_search method
+  context ".binary_search" do
+    it "searches AddressBook for a non-existent entry" do
+      book.import_from_csv("entries.csv")
+      entry = book.binary_search("Dan")
+      expect(entry).to be_nil
+    end 
+
+    it "searches AddressBook for Bill" do
+      book.import_from_csv("entries.csv")
+      entry = book.binary_search("Bill")
+      expect entry.instance_of?(Entry)
+      check_entry(entry, "Bill", "555-555-4854", "bill@blocmail.com")
     end
 
-    it "imports the 2nd entry" do
-      book.import_from_csv("entries_2.csv")
-      # Check the second entry
-      entry_two = book.entries[1]
-      check_entry(entry_two, "Declan", "555-435-5415", "declan@blocmail.com")
+    it "searches AddressBook for Bob" do
+      book.import_from_csv("entries.csv")
+      entry = book.binary_search("Bob")
+      expect entry.instance_of?(Entry)
+      check_entry(entry, "Bob", "555-555-5415", "bob@blocmail.com")
+    end 
+
+    it "searches AddressBook for Joe" do
+      book.import_from_csv("entries.csv")
+      entry = book.binary_search("Joe")
+      expect entry.instance_of?(Entry)
+      check_entry(entry, "Joe", "555-555-3660", "joe@blocmail.com")
+    end 
+
+    it "searches AddressBook for Sally" do
+      book.import_from_csv("entries.csv")
+      entry = book.binary_search("Sally")
+      expect entry.instance_of?(Entry)
+      check_entry(entry, "Sally", "555-555-4646", "sally@blocmail.com")
+    end 
+    
+    it "searches AddressBook for Sussie" do
+      book.import_from_csv("entries.csv")
+      entry = book.binary_search("Sussie")
+      expect entry.instance_of?(Entry)
+      check_entry(entry, "Sussie", "555-555-2036", "sussie@blocmail.com")
     end
 
-    it "imports the 3rd entry" do
-      book.import_from_csv("entries_2.csv")
-      # Check the third entry
-      entry_three = book.entries[2]
-      check_entry(entry_three, "Sophia", "435-555-3660", "sophia@blocmail.com")
-    end
-
-  end
+    it "searches AddressBook for Billy" do
+      book.import_from_csv("entries.csv")
+      entry = book.binary_search("Billy")
+      expect(entry).to be_nil
+    end     
+  end 
 end
